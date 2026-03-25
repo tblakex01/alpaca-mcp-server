@@ -226,3 +226,29 @@ async def test_values_are_strings(captured_bodies: list[dict]):
     assert isinstance(body["take_profit"]["limit_price"], str)
     assert isinstance(body["stop_loss"]["stop_price"], str)
     assert isinstance(body["stop_loss"]["limit_price"], str)
+
+
+@pytest.mark.asyncio
+@pytest.mark.usefixtures("_mock_post")
+async def test_stop_loss_limit_without_stop_price_rejected(captured_bodies: list[dict]):
+    """stop_loss_limit_price without stop_loss_price (or alias) must be rejected."""
+    server = build_server()
+    async with Client(transport=server) as mcp:
+        result = await mcp.call_tool(
+            "place_stock_order",
+            {
+                "symbol": "SPY",
+                "side": "buy",
+                "qty": "1",
+                "type": "market",
+                "time_in_force": "day",
+                "stop_loss_limit_price": "489.00",
+            },
+        )
+
+    # No outbound request should have been made
+    assert len(captured_bodies) == 0
+
+    # The tool must return an error message
+    assert len(result.content) > 0
+    assert "error" in result.content[0].text.lower()
