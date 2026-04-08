@@ -32,6 +32,13 @@
           "format": "string"
         },
         {
+          "name": "ALPACA_PAPER_TRADE",
+          "description": "Use paper trading environment (true) or live trading (false)",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string"
+        },
+        {
           "name": "ALPACA_TOOLSETS",
           "description": "Comma-separated list of toolsets to enable (e.g. account,trading,stock-data). All enabled by default.",
           "isRequired": false,

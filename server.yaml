@@ -67,6 +67,10 @@ config:
       required: true
 
   env:
+    - name: ALPACA_PAPER_TRADE
+      description: Use paper trading environment (true) or live trading (false)
+      default: "true"
+
     - name: ALPACA_TOOLSETS
       description: Comma-separated list of toolsets to enable (e.g. account,trading,stock-data). All enabled by default.
       default: ""
